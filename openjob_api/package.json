@@ -1,0 +1,30 @@
+{
+  "name": "openjob-api-v2",
+  "version": "2.0.0",
+  "description": "OpenJob RESTful API Versi 2 - PDF, Redis, dan RabbitMQ",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "start:dev": "nodemon src/server.js",
+    "migrate": "node src/database/migrate.js",
+    "migrate:up": "node src/database/migrate.js up",
+    "migrate:down": "node src/database/migrate.js down",
+    "check": "node --check src/server.js && node scripts/check-files.js && node scripts/check-update-job.js"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "amqplib": "^0.10.9",
+    "multer": "^2.0.2",
+    "node-pg-migrate": "^8.0.3",
+    "pg": "^8.16.3",
+    "redis": "^5.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
