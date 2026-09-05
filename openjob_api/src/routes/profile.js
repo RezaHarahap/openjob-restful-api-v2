@@ -1,0 +1,5 @@
+const express=require('express');const pool=require('../database/pool');const auth=require('../middleware/auth');const router=express.Router();router.use(auth);
+router.get('/',async(req,res,next)=>{try{const{rows}=await pool.query('SELECT id,name,email,role FROM users WHERE id=$1',[req.auth.id]);if(!rows[0])return res.status(404).json({status:'failed',message:'User not found'});res.json({status:'success',data:rows[0]})}catch(e){next(e)}});
+router.get('/applications',async(req,res,next)=>{try{const{rows}=await pool.query(`SELECT a.id,a.user_id,a.job_id,a.status,a.created_at,j.title AS job_title FROM applications a JOIN jobs j ON j.id=a.job_id WHERE a.user_id=$1 ORDER BY a.created_at ASC`,[req.auth.id]);res.json({status:'success',data:{applications:rows}})}catch(e){next(e)}});
+router.get('/bookmarks',async(req,res,next)=>{try{const{rows}=await pool.query(`SELECT b.id,b.user_id,b.job_id,b.created_at,j.title FROM bookmarks b JOIN jobs j ON j.id=b.job_id WHERE b.user_id=$1 ORDER BY b.created_at ASC`,[req.auth.id]);res.json({status:'success',data:{bookmarks:rows}})}catch(e){next(e)}});
+module.exports=router;
